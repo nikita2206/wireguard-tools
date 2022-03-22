@@ -18,8 +18,8 @@ export const generateKeyPair = async (opts?: Options) => {
   const preSharedKey = opts?.preSharedKey ? (Buffer.from(generatePresharedKey()).toString("base64")) : undefined
 
   return {
-    privateKey: privateKey,
-    publicKey: publicKey,
+    privateKey: Buffer.from(privateKey).toString("base64"),
+    publicKey: Buffer.from(publicKey).toString("base64"),
     preSharedKey: preSharedKey
   }
 }

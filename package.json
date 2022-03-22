@@ -1,7 +1,7 @@
 {
-  "name": "wireguard-tools",
+  "name": "@meat-nuggets/wireguard-tools",
   "version": "0.1.0",
-  "repository": "https://github.com/guardline-vpn/wireguard-tools",
+  "repository": "https://github.com/nikita2206/wireguard-tools",
   "description": "The best way to interact with WireGuard from Node",
   "keywords": [
     "wireguard",
