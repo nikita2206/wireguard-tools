@@ -104,3 +104,7 @@ dist
 .tern-port
 
 test
+
+.idea
+package-lock.json
+*.iml

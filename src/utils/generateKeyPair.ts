@@ -1,11 +1,9 @@
-import { exec } from "../utils/exec"
+import { generatePresharedKey, generatePrivateKey, generatePublicKey } from "./wg-crypto";
 
 interface Options {
   preSharedKey: boolean
   privateKey?: string
 }
-
-const stripWhiteSpace = (s: string) => s.replace(/\s/g, '')
 
 /** 
  * Generate a key pair using wg
@@ -13,14 +11,15 @@ const stripWhiteSpace = (s: string) => s.replace(/\s/g, '')
  */
 export const generateKeyPair = async (opts?: Options) => {
   // Make the private and public key pair
-  const privateKey = opts?.privateKey || await exec(`wg genkey`)
-  const publicKey = await exec(`echo "${privateKey}" | wg pubkey`)
 
-  const preSharedKey = opts?.preSharedKey ? await exec(`wg genpsk`) : undefined
+  const privateKey = opts?.privateKey ? new Uint8Array(Buffer.from(opts?.privateKey, "base64")) : generatePrivateKey()
+  const publicKey = generatePublicKey(privateKey)
+
+  const preSharedKey = opts?.preSharedKey ? (Buffer.from(generatePresharedKey()).toString("base64")) : undefined
 
   return {
-    privateKey: stripWhiteSpace(privateKey),
-    publicKey: stripWhiteSpace(publicKey),
-    preSharedKey: preSharedKey ? stripWhiteSpace(preSharedKey) : undefined
+    privateKey: privateKey,
+    publicKey: publicKey,
+    preSharedKey: preSharedKey
   }
 }

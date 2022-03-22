@@ -4,7 +4,7 @@ import { getConfigObjectFromFile } from './utils/getConfigFromFile'
 import { generateKeyPair } from './utils/generateKeyPair'
 import { writeConfig } from './utils/writeConfig'
 import mergeWith from 'lodash.mergewith'
-import { exec } from './utils/exec'
+import { execFunction } from './utils/exec'
 
 interface GenerateKeysOptions {
   /** Also create a preshared key */
@@ -137,7 +137,7 @@ export class WgConfig implements WgConfigObject {
   }
 
   /** brings up the wireguard interface */
-  async up(filePath?: string) {
+  async up(exec: execFunction, filePath?: string) {
     filePath = filePath || this.filePath
     if (!filePath) throw new Error(`No filePath found for WgConfig`)
     let code = 0
@@ -158,7 +158,7 @@ export class WgConfig implements WgConfigObject {
   }
 
   /** brings down the wireguard interface */
-  async down(filePath?: string) {
+  async down(exec: execFunction, filePath?: string) {
     filePath = filePath || this.filePath
     if (!filePath) throw new Error(`No filePath found for WgConfig`)
     let code = 0
@@ -179,16 +179,16 @@ export class WgConfig implements WgConfigObject {
   }
 
   /** restarts the wireguard interface */
-  async restart(filePath?: string) {
-    await this.down(filePath)
-    await this.up(filePath)
+  async restart(exec: execFunction, filePath?: string) {
+    await this.down(exec, filePath)
+    await this.up(exec, filePath)
   }
 
   /** Saves the config to file and restarts it unless `{ noUp: true }` is passed */
-  async save(opts?: { filePath?: string, noUp: boolean }) {
+  async save(exec: execFunction, opts?: { filePath?: string, noUp: boolean }) {
     await this.writeToFile(opts?.filePath)
     if (!opts?.noUp) {
-      await this.restart(opts?.filePath)
+      await this.restart(exec, opts?.filePath)
     }
   }
 }

@@ -1,11 +1,11 @@
-import { exec } from "./exec"
+import { execFunction } from "./exec"
 
 /**
  * Checks that Wireguard is installed and available in path at 'wg' and returns the version string.
  * 
  * Will throw on Error if wg is not installed
  */
-export const checkWgIsInstalled = async () => {
+export const checkWgIsInstalled = async (exec: execFunction) => {
   try {
     const version = await exec('wg -v')
     return version

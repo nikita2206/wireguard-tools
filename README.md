@@ -1,3 +1,9 @@
+### Disclaimer
+> This is a fork of the original project located here: https://github.com/guardline-vpn/wireguard-tools.
+> 
+> Whilst the original project intended to be used on the host where Wireguard VPN server runs,
+>   this fork is supposed to be used from the controlling server that runs on NodeJS and talks to Wireguard servers via SSH. 
+
 # Wireguard tools for Nodejs
 
 This lib includes a class and set of helper functions for working with WireGuard config files in javascript/typescript.
